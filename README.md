@@ -1,3 +1,6 @@
+# [GlitchGirl](https://github.com/glitchgirl4)'s personal version.
+## This is [Signet](https://github.com/signet-marigold/pico-launcher/)'s patches applied onto the latest version of Pico Launcher
+
 # Pico Launcher
 This repository contains Pico Launcher, which is a front-end for [Pico Loader](https://github.com/LNH-team/pico-loader).
 
