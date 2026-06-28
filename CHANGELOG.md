@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+- Top screen cover is now displayed/hidden correctly when placed partially or fully off-screen
+- DSi banners with missing DSi part now fall back to the DS icon
+
 ## [v1.3.0] - 18 Apr 2026
 
 ### Added
