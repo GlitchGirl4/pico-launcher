@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+- Support for custom BMP icons for games and folders - by @tasken
+- Support for custom NDS banners (custom titles, subtitles and animated icons) for games and folders - by @tasken
+- Theme selector
+
 ### Fixed
 - Top screen cover is now displayed/hidden correctly when placed partially or fully off-screen
 - DSi banners with missing DSi part now fall back to the DS icon

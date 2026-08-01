@@ -28,6 +28,7 @@ bool RomBrowserStateMachine::FireDirect(RomBrowserStateTrigger trigger)
         .In(RomBrowserState::DisplaySettings)
             .Trigger(RomBrowserStateTrigger::ChangeDisplayMode).GoesTo(RomBrowserState::DisplaySettings)
             .Trigger(RomBrowserStateTrigger::HideDisplaySettings).GoesTo(RomBrowserState::Browser)
+            .Trigger(RomBrowserStateTrigger::GotoSettingsScreen).GoesTo(RomBrowserState::GoingToSettingsScreen)
         .Check(newState))
     {
         _prevState = _curState;

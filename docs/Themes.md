@@ -84,19 +84,19 @@ Blend colors are used to fake translucency. They should be set to an approximati
     },
     "topBannerTextLine0": {
         "position": { "x": 70, "y": 126 },
-        "width": 176,
+        "width": 168,
         "textColor": { "r": 30, "g": 30, "b": 30 },
         "blendColor": { "r": 200, "g": 200, "b": 200 }
     },
     "topBannerTextLine1": {
         "position": { "x": 70, "y": 141 },
-        "width": 176,
+        "width": 168,
         "textColor": { "r": 30, "g": 30, "b": 30 },
         "blendColor": { "r": 200, "g": 200, "b": 200 }
     },
     "topBannerTextLine2": {
         "position": { "x": 70, "y": 155 },
-        "width": 176,
+        "width": 168,
         "textColor": { "r": 30, "g": 30, "b": 30 },
         "blendColor": { "r": 200, "g": 200, "b": 200 }
     },
@@ -129,3 +129,9 @@ Blend colors are used to fake translucency. They should be set to an approximati
 
 ## Background music
 All themes support background music by placing DSP-ADPCM encoded `.bcstm` files in a `bgm` folder inside the theme folder. Looping is supported. When multiple `.bcstm` files are provided, the background music will be selected at random each time Pico Launcher is started.
+
+## Theme selector icon
+A theme can have an `icon.bmp` file that is shown in the theme list when selecting a theme. It must be **32×32 pixels, 4 bpp (16 colors), uncompressed `.bmp`** file, with the first palette color treated as transparent.
+
+## Theme selector preview image
+A theme can have a `preview.bin` file that is shown on the top screen in the theme selection screen. It must be a 256x192 pixels 15 bpp bitmap (same format as `topbg.bin` and `bottombg.bin`). When it is not provided, `topbg.bin` is displayed instead. If that does not exist either, nothing is shown on the top screen.

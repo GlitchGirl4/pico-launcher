@@ -1,6 +1,5 @@
 #include "common.h"
-#include <string.h>
-#include "core/StringUtil.h"
+#include "core/mini-printf.h"
 #include "FileType/NullFileTypeProvider.h"
 #include "FileType/BmpFileCover.h"
 #include "FileType/InternalFileInfo.h"
@@ -9,22 +8,7 @@
 
 void CoverRepository::Initialize()
 {
-    NullFileTypeProvider fileTypeProvider;
-    _ndsCoversFolder = SdFolderFactory(&fileTypeProvider).CreateFromPath("/_pico/covers/nds");
-    if (_ndsCoversFolder)
-    {
-        _ndsCoversFolder->SortByNameInPlace();
-    }
-    _gbaCoversFolder = SdFolderFactory(&fileTypeProvider).CreateFromPath("/_pico/covers/gba");
-    if (_gbaCoversFolder)
-    {
-        _gbaCoversFolder->SortByNameInPlace();
-    }
-    _userCoversFolder = SdFolderFactory(&fileTypeProvider).CreateFromPath("/_pico/covers/user");
-    if (_userCoversFolder)
-    {
-        _userCoversFolder->SortByNameInPlace();
-    }
+    InitializeFolders("/_pico/covers/");
 }
 
 FileCover* CoverRepository::GetCoverForFile(const FileInfo& fileInfo, const InternalFileInfo* internalFileInfo) const
@@ -37,32 +21,22 @@ FileCover* CoverRepository::GetCoverForFile(const FileInfo& fileInfo, const Inte
         const FileInfo* coverFile = nullptr;
 
         // Try to get a cover based on the filename in the user folder
-        if (_userCoversFolder)
+        if (_userFolder)
         {
-            u32 length = StringUtil::Copy(nameBuffer, fileInfo.GetFileName(), sizeof(nameBuffer) - 5);
-            nameBuffer[length + 0] = '.';
-            nameBuffer[length + 1] = 'b';
-            nameBuffer[length + 2] = 'm';
-            nameBuffer[length + 3] = 'p';
-            nameBuffer[length + 4] = 0;
-            coverFile = _userCoversFolder->BinarySearch(nameBuffer);
+            mini_snprintf(nameBuffer, sizeof(nameBuffer), "%s.bmp", fileInfo.GetFileName());
+            coverFile = _userFolder->BinarySearch(nameBuffer);
         }
 
         // Try to get a cover based on an internal game code
         if (!coverFile && internalFileInfo)
         {
-            const auto* coverFolder = GetCoverFolder(fileType->GetShortName());
+            const auto* coverFolder = GetFileTypeFolder(fileType->GetShortName());
             if (coverFolder)
             {
                 const char* gameCode = internalFileInfo->GetGameCode();
                 if (gameCode)
                 {
-                    u32 length = StringUtil::Copy(nameBuffer, gameCode, sizeof(nameBuffer) - 5);
-                    nameBuffer[length + 0] = '.';
-                    nameBuffer[length + 1] = 'b';
-                    nameBuffer[length + 2] = 'm';
-                    nameBuffer[length + 3] = 'p';
-                    nameBuffer[length + 4] = 0;
+                    mini_snprintf(nameBuffer, sizeof(nameBuffer), "%s.bmp", gameCode);
                 }
 
                 coverFile = coverFolder->BinarySearch(nameBuffer);
@@ -85,20 +59,4 @@ FileCover* CoverRepository::GetCoverForFile(const FileInfo& fileInfo, const Inte
     }
 
     return fileType->CreateFileCover(fileInfo.GetFileName());
-}
-
-const SdFolder* CoverRepository::GetCoverFolder(const char* coverFolderName) const
-{
-    if (!strcmp(coverFolderName, "nds"))
-    {
-        return _ndsCoversFolder.get();
-    }
-    else if (!strcmp(coverFolderName, "gba"))
-    {
-        return _gbaCoversFolder.get();
-    }
-    else
-    {
-        return nullptr;
-    }
 }
